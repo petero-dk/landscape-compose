@@ -47,18 +47,17 @@ services:
   landscape:
     image: konvergence/landscape:19.01
     hostname: landscape-demo.yourdomain.lan
+    entrypoint: /sbin/entrypoint.sh && rm /etc/pam.d/landscape
     depends_on:
-      postgres:
-        condition: service_started
-      rabbitmq:
-        condition: service_started
+      - postgres
+      - rabbitmq
     ports:
      - "80:80"
      - "443:443"
     environment:
       DB_HOST: postgres
-      DB_LANDSCAPE_PASS: password
-      DB_PASS: password
+      DB_LANDSCAPE_PASS: difficulthorsepassword
+      DB_PASS: difficulthorsepassword
       DB_PORT: '5432'
       DB_USER: postgres
       INITIALIZE_SCHEMA: 'yes'
@@ -80,6 +79,6 @@ services:
   postgres:
     image: konvergence/postgres-plpython:10.7
     environment:
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: difficulthorsepassword
     volumes:
     - postgres-data:/var/lib/postgresql/data
