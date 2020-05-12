@@ -47,7 +47,8 @@ services:
   landscape:
     image: konvergence/landscape:19.01
     hostname: landscape-demo.yourdomain.lan
-    entrypoint: /sbin/entrypoint.sh && rm /etc/pam.d/landscape
+    entrypoint: /bin/sh -c
+    command: "sed -E -i 's/^[^#\n]+ldap/#\0/gm' /sbin/entrypoint.sh && /sbin/entrypoint.sh app:start"
     depends_on:
       - postgres
       - rabbitmq
